@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Button, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Button } from "react-native-elements";
 import ACTIONS from "./ACTIONS";
-// import "./ActionButtonGroup.css";
 
 const ActionButtonGroup = ({ onAction }) => (
-  <View>
+  <View style={styles.container}>
     <Button title="Limp" onPress={onAction.bind(null, ACTIONS.LIMP)} />
     <Button
       title="Raise Fold"
@@ -19,3 +19,10 @@ const ActionButtonGroup = ({ onAction }) => (
 );
 
 export default ActionButtonGroup;
+
+const styles = StyleSheet.create({
+  container: {
+    alignSelf: "stretch",
+    flexDirection: "row"
+  }
+});

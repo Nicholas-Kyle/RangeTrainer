@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import Scoreboard from "./Scoreboard";
 import ActionButtonGroup from "./ActionButtonGroup";
-import WrongActionMessage from "./WrongActionMessage";
+import ActionHistoryMessages from "./ActionHistoryMessages";
+import { textStyle } from "./sharedStyles";
 
 const POSITIONS = ["EP", "MP", "HJ", "CO", "BTN"];
 const groupOne = ["AA", "KK", "QQ", "JJ"];
@@ -66,6 +68,10 @@ const positionWithGroups = {
     limp: [...groupEleven, ...groupTwlegth, ...groupThirteen]
   }
 };
+
+function reverseArray(array) {
+  return array.slice(0).reverse();
+}
 
 class RangeTrainer extends Component {
   constructor(props) {
@@ -155,7 +161,7 @@ class RangeTrainer extends Component {
 
     const correctActionMessage = handSuccess
       ? ""
-      : `Correct action is ${correctAction}. For Hand ${hand} and position ${position}`;
+      : `For Hand ${hand} and position ${position} Correct action is ${correctAction}.`;
 
     const extraScore = handSuccess ? 10 : -10;
 
@@ -183,32 +189,39 @@ class RangeTrainer extends Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <Scoreboard score={score} />
-        <View>
+        <View style={styles.scoreboard}>
+          <Scoreboard score={score} />
+        </View>
+        <View style={styles.newHand}>
           <Button title="Next hand" onPress={this.newHand} />
         </View>
-        <View>
-          <Text>Pos: {position}</Text>
-          <Text>Hand: {hand}</Text>
+        <View style={styles.posHand}>
+          <Text style={styles.position}>
+            Position: <Text style={styles.positionTitle}>{position}</Text>
+          </Text>
+          <Text style={styles.hand}>
+            Hand: <Text style={styles.handTitle}>{hand}</Text>
+          </Text>
         </View>
-        {hand && <ActionButtonGroup onAction={this.checkAction} />}
+        <View style={styles.actionButtons}>
+          {hand && <ActionButtonGroup onAction={this.checkAction} />}
+        </View>
+
         {action && (
-          <View>
+          <View style={styles.actionMessage}>
             {action &&
               handSuccess && (
-                <Text style={{ backgroundColor: "green" }}>Correct action</Text>
+                <Text style={styles.correctActionMessage}>Correct action</Text>
               )}
 
             {!handSuccess && (
-              <Text style={{ backgroundColor: "red" }}>Wrong action</Text>
+              <Text style={styles.wrongActionMessage}>Wrong action</Text>
             )}
           </View>
         )}
-        {wrongHands && (
-          <View>
-            <WrongActionMessage hands={wrongHands} />
-          </View>
-        )}
+        <View style={styles.actionHistoryMessages}>
+          <ActionHistoryMessages hands={reverseArray(wrongHands)} />
+        </View>
       </View>
     );
   }
@@ -216,11 +229,64 @@ class RangeTrainer extends Component {
 
 export default RangeTrainer;
 
+const markerBorder = {
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "black"
+};
+
 const styles = StyleSheet.create({
   container: {
+    ...markerBorder,
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "powderblue",
+    padding: 30,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-between"
+  },
+  scoreboard: {
+    ...markerBorder,
+    padding: 15,
+    alignSelf: "stretch"
+  },
+  newHand: {
+    ...markerBorder,
+    alignSelf: "stretch"
+  },
+  posHand: {
+    ...markerBorder,
+    alignSelf: "stretch",
+    padding: 15
+  },
+  position: { ...textStyle.default },
+  positionTitle: {
+    alignContent: "flex-end"
+  },
+  handTitle: {
+    alignContent: "flex-end"
+  },
+  hand: { ...textStyle.default },
+  actionButtons: {
+    ...markerBorder
+  },
+  actionMessage: {
+    ...markerBorder,
+    alignSelf: "stretch"
+  },
+  correctActionMessage: {
+    backgroundColor: "green",
+    padding: 15,
+    ...textStyle.default
+  },
+  wrongActionMessage: {
+    padding: 15,
+    backgroundColor: "red",
+    ...textStyle.default
+  },
+  actionHistoryMessages: {
+    ...markerBorder,
+    flex: 1,
+    alignSelf: "stretch",
+    padding: 15
   }
 });
