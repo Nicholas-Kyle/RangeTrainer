@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "name": "Poker Range Trainer",
+    "icon": "./RangeTrainer/app-icon.png",
+    "version": "0.0.1",
+    "slug": "range-trainer",
+    "sdkVersion": "25.0.0",
+    "ios": {
+      "bundleIdentifier": "com.lpoulter.rangetrainer"
+    },
+    "android": {
+      "package": "com.lpoulter.rangetrainer"
+    }
   }
 }
