@@ -1,0 +1,12 @@
+.rangeTrainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background-color: grey;
+  color: white;
+}
+
+.rangeTrainer div {
+  margin-bottom: 15px;
+}
