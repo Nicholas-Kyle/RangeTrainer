@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, AsyncStorage } from "react-native";
-import { Button } from "react-native-elements";
+import { Button, Divider } from "react-native-elements";
 import Scoreboard from "./Scoreboard";
 import ActionButtonGroup from "./ActionButtonGroup";
 import ActionHistoryMessages from "./ActionHistoryMessages";
@@ -101,7 +101,7 @@ class RangeTrainer extends Component {
   async componentDidMount() {
     const highScore = await this.getHighScore();
     this.setState({ highScore });
-    console.log("mounting with high score", highScore);
+    await this.newHand();
   }
 
   getRandomPosition() {
@@ -154,13 +154,11 @@ class RangeTrainer extends Component {
     try {
       const highScore = await AsyncStorage.getItem("@RangTrainer:highScore");
       if (highScore !== null) {
-        console.log("highScore", parseInt(highScore));
-
         return parseInt(highScore);
       }
 
       await this.setHighScore(0);
-      console.log("no highscore setting to 0");
+      console.log("no current highscore setting to 0");
       return 0;
     } catch (error) {
       console.log("Error retrieving highScore: ", error);
@@ -186,7 +184,6 @@ class RangeTrainer extends Component {
     const isHighScore = await this.checkIfHighScore();
     if (isHighScore) {
       await this.setHighScore(this.state.score);
-      console.log("new highscore", this.state.score);
     }
 
     this.setState({
@@ -224,7 +221,6 @@ class RangeTrainer extends Component {
         ({ wrongHands }) => {
           let newWrongHands = wrongHands.slice(0);
           newWrongHands.push(actionMessage);
-          console.log("wrongHnads", wrongHands);
           return {
             ...newState,
             score: 0,
@@ -271,13 +267,6 @@ class RangeTrainer extends Component {
         <View style={styles.innerContainer}>
           <View style={styles.scoreboard}>
             <Scoreboard score={score} highScore={highScore} />
-          </View>
-          <View style={styles.newHandView}>
-            <Button
-              buttonStyle={styles.newHandBtn}
-              title="Next hand"
-              onPress={this.newHand}
-            />
           </View>
           <View style={styles.posHandView}>
             <Text style={styles.position}>
@@ -331,15 +320,8 @@ const styles = StyleSheet.create({
   },
   scoreboard: {
     backgroundColor: colors.secondary,
+    marginBottom: 30,
     alignSelf: "stretch"
-  },
-  newHandView: {
-    alignSelf: "stretch",
-    marginTop: 15,
-    marginBottom: 15
-  },
-  newHandBtn: {
-    backgroundColor: colors.textMain
   },
   posHandView: {
     backgroundColor: colors.secondary,
