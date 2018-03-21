@@ -24,49 +24,69 @@ const groupThirteen = ["JTo", "T9o", "98o", "87o", "76o", "65o", "54o"];
 
 const positionWithGroups = {
   [POSITIONS[0]]: {
-    raiseDefend: [...groupOne, ...groupTwo, ...groupThree],
-    raiseFold: [...groupfour, ...groupfive, ...groupSix],
-    limp: [...groupSeven]
+    [ACTIONS.RAISE]: [
+      ...groupOne,
+      ...groupTwo,
+      ...groupThree,
+      ...groupfour,
+      ...groupfive,
+      ...groupSix
+    ],
+    [ACTIONS.LIMP]: [...groupSeven]
   },
   [POSITIONS[1]]: {
-    raiseDefend: [...groupOne, ...groupTwo, ...groupThree],
-    raiseFold: [...groupfour, ...groupfive, ...groupSix, ...groupSeven],
-    limp: [...groupEight]
+    [ACTIONS.RAISE]: [
+      ...groupOne,
+      ...groupTwo,
+      ...groupThree,
+      ...groupfour,
+      ...groupfive,
+      ...groupSix,
+      ...groupSeven
+    ],
+    [ACTIONS.LIMP]: [...groupEight]
   },
   [POSITIONS[2]]: {
-    raiseDefend: [
+    [ACTIONS.RAISE]: [
       ...groupOne,
       ...groupTwo,
       ...groupThree,
       ...groupfour,
-      ...groupfive
+      ...groupfive,
+      ...groupSix,
+      ...groupSeven,
+      ...groupEight
     ],
-    raiseFold: [...groupSix, ...groupSeven, ...groupEight],
-    limp: [...groupNine, ...groupTen]
+    [ACTIONS.LIMP]: [...groupNine, ...groupTen]
   },
   [POSITIONS[3]]: {
-    raiseDefend: [
+    [ACTIONS.RAISE]: [
       ...groupOne,
       ...groupTwo,
       ...groupThree,
       ...groupfour,
       ...groupfive,
-      ...groupSix
+      ...groupSix,
+      ...groupSeven,
+      ...groupEight,
+      ...groupNine
     ],
-    raiseFold: [...groupSeven, ...groupEight, ...groupNine],
-    limp: [...groupTen, ...groupEleven, ...groupTwlegth]
+    [ACTIONS.LIMP]: [...groupTen, ...groupEleven, ...groupTwlegth]
   },
   [POSITIONS[4]]: {
-    raiseDefend: [
+    [ACTIONS.RAISE]: [
       ...groupOne,
       ...groupTwo,
       ...groupThree,
       ...groupfour,
       ...groupfive,
-      ...groupSix
+      ...groupSix,
+      ...groupSeven,
+      ...groupEight,
+      ...groupNine,
+      ...groupTen
     ],
-    raiseFold: [...groupSeven, ...groupEight, ...groupNine, ...groupTen],
-    limp: [...groupEleven, ...groupTwlegth, ...groupThirteen]
+    [ACTIONS.LIMP]: [...groupEleven, ...groupTwlegth, ...groupThirteen]
   }
 };
 
@@ -181,12 +201,8 @@ class RangeTrainer extends Component {
 
   findCorrectActionForHandInPosition(hand, position) {
     const positionGroups = positionWithGroups[position];
-    if (positionGroups.raiseDefend.includes(hand)) {
-      return ACTIONS.RAISE_DEFEND;
-    }
-
-    if (positionGroups.raiseFold.includes(hand)) {
-      return ACTIONS.RAISE_FOLD;
+    if (positionGroups.raise.includes(hand)) {
+      return ACTIONS.RAISE;
     }
 
     if (positionGroups.limp.includes(hand)) {

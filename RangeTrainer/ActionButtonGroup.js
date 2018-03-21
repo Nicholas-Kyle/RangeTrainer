@@ -6,14 +6,7 @@ import ACTIONS from "./ACTIONS";
 const ActionButtonGroup = ({ onAction }) => (
   <View style={styles.container}>
     <Button title="Limp" onPress={onAction.bind(null, ACTIONS.LIMP)} />
-    <Button
-      title="Raise Fold"
-      onPress={onAction.bind(null, ACTIONS.RAISE_FOLD)}
-    />
-    <Button
-      title="Raise Defend"
-      onPress={onAction.bind(null, ACTIONS.RAISE_DEFEND)}
-    />
+    <Button title="Raise" onPress={onAction.bind(null, ACTIONS.RAISE)} />
     <Button title="Fold" onPress={onAction.bind(null, ACTIONS.FOLD)} />
   </View>
 );
