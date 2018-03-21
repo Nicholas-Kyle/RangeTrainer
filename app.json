@@ -1,12 +1,16 @@
 {
   "expo": {
     "name": "Poker Range Trainer",
-    "icon": "./RangeTrainer/app-icon.png",
+    "icon": "./assets/icons/android/playstore-icon.png",
     "version": "0.0.1",
     "slug": "range-trainer",
     "sdkVersion": "25.0.0",
     "ios": {
       "bundleIdentifier": "com.lpoulter.rangetrainer"
+    },
+    "splash": {
+      "image": "./assets/icons/android/mipmap-xxxhdpi/ic_launcher.png",
+      "resizeMode": "cover"
     },
     "android": {
       "package": "com.lpoulter.rangetrainer"
