@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   text: {
     ...textStyle.default,
     color: colors.textSecondary,
-    backgroundColor: colors.secondary
+    backgroundColor: colors.secondary,
+    fontSize: 18
   }
 });

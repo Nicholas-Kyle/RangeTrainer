@@ -90,10 +90,6 @@ const positionWithGroups = {
   }
 };
 
-function reverseArray(array) {
-  return array.slice(0).reverse();
-}
-
 class RangeTrainer extends Component {
   constructor(props) {
     super(props);
@@ -225,11 +221,16 @@ class RangeTrainer extends Component {
     if (!handSuccess) {
       const actionMessage = `For Hand ${hand} and position ${position} Correct action is ${correctAction}.`;
       return this.setState(
-        ({ wrongHands }) => ({
-          ...newState,
-          score: 0,
-          wrongHands: wrongHands.concat(actionMessage) //TODO add to beginning of array instead of reverse
-        }),
+        ({ wrongHands }) => {
+          let newWrongHands = wrongHands.slice(0);
+          newWrongHands.push(actionMessage);
+          console.log("wrongHnads", wrongHands);
+          return {
+            ...newState,
+            score: 0,
+            wrongHands: newWrongHands
+          };
+        },
         async () => {
           try {
             await this.newHand();
@@ -299,7 +300,7 @@ class RangeTrainer extends Component {
             </View>
           )}
           <View style={styles.actionHistoryMessages}>
-            <ActionHistoryMessages hands={reverseArray(wrongHands)} />
+            <ActionHistoryMessages hands={wrongHands} />
           </View>
         </View>
       </View>
@@ -356,26 +357,26 @@ const styles = StyleSheet.create({
   },
   hand: { ...textStyle.default, color: colors.textSecondary },
   actionMessageView: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignSelf: "stretch",
     marginTop: 15,
     marginBottom: 15
   },
   correctActionMessage: {
     ...textStyle.default,
+    textAlign: "center",
     backgroundColor: "green",
     color: colors.textSecondary,
     padding: 15
   },
   wrongActionMessage: {
     ...textStyle.default,
+    textAlign: "center",
     padding: 15,
     color: colors.textSecondary,
     backgroundColor: "red"
   },
   actionHistoryMessages: {
     flex: 1,
-    alignSelf: "stretch",
-    padding: 15
+    alignSelf: "stretch"
   }
 });

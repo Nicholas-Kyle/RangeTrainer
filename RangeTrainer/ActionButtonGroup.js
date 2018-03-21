@@ -29,6 +29,8 @@ export default ActionButtonGroup;
 const styles = StyleSheet.create({
   container: {
     justifyContent: "space-between",
-    flexDirection: "row"
+    flexDirection: "row",
+    marginTop: 15,
+    marginBottom: 15
   }
 });
