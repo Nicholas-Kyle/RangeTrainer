@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, AsyncStorage } from "react-native";
 import { Button } from "react-native-elements";
 import Scoreboard from "./Scoreboard";
 import ActionButtonGroup from "./ActionButtonGroup";
@@ -82,6 +82,11 @@ class RangeTrainer extends Component {
     this.checkAction = this.checkAction.bind(this);
   }
 
+  async componentDidMount() {
+    const highScore = await this.getHighScore();
+    console.log("mounting with high score", highScore);
+  }
+
   getRandomPosition() {
     return POSITIONS[Math.floor(Math.random() * POSITIONS.length)];
   }
@@ -128,11 +133,47 @@ class RangeTrainer extends Component {
     return `${cardOne}${cardTwo}${suited}`;
   }
 
-  newHand() {
+  async getHighScore() {
+    try {
+      const highScore = await AsyncStorage.getItem("@RangTrainer:highScore");
+      if (highScore !== null) {
+        console.log("highScore", parseInt(highScore));
+
+        return parseInt(highScore);
+      }
+
+      await this.setHighScore(0);
+      console.log("no highscore setting to 0");
+      return 0;
+    } catch (error) {
+      console.log("Error retrieving highScore: ", error);
+    }
+  }
+
+  async setHighScore(newScore) {
+    try {
+      await AsyncStorage.setItem("@RangTrainer:highScore", newScore.toString());
+    } catch (error) {
+      console.log("Error saving highScore: ", error);
+    }
+  }
+
+  async checkIfHighScore() {
+    const highScore = await this.getHighScore();
+    const { score } = this.state;
+    return score > highScore;
+  }
+
+  async newHand() {
+    const isHighScore = await this.checkIfHighScore();
+    if (isHighScore) {
+      await this.setHighScore(this.state.score);
+      console.log("new highscore", this.state.score);
+    }
+
     this.setState({
       position: this.getRandomPosition(),
-      hand: this.getRandomHand(),
-      action: null
+      hand: this.getRandomHand()
     });
   }
 
@@ -169,9 +210,15 @@ class RangeTrainer extends Component {
         ({ wrongHands }) => ({
           ...newState,
           score: 0,
-          wrongHands: wrongHands.concat(actionMessage) //TODO add to beginner of array instead of reverse
+          wrongHands: wrongHands.concat(actionMessage) //TODO add to beginning of array instead of reverse
         }),
-        this.newHand()
+        async () => {
+          try {
+            await this.newHand();
+          } catch (error) {
+            console.log("Error calling newHand: ", error);
+          }
+        }
       );
     }
 
@@ -180,7 +227,13 @@ class RangeTrainer extends Component {
         ...newState,
         score: oldScore + 10
       }),
-      this.newHand()
+      async () => {
+        try {
+          await this.newHand();
+        } catch (error) {
+          console.log("Error calling newHand: ", error);
+        }
+      }
     );
   }
 
