@@ -2,9 +2,10 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { textStyle } from "./sharedStyles";
 
-const Scoreboard = ({ score }) => (
+const Scoreboard = ({ score, highScore }) => (
   <View>
     <Text style={styles.scoreText}>Score: {score}</Text>
+    <Text style={styles.scoreText}>High Score: {highScore}</Text>
   </View>
 );
 

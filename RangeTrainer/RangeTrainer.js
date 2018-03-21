@@ -84,6 +84,7 @@ class RangeTrainer extends Component {
 
   async componentDidMount() {
     const highScore = await this.getHighScore();
+    this.setState({ highScore });
     console.log("mounting with high score", highScore);
   }
 
@@ -153,6 +154,7 @@ class RangeTrainer extends Component {
   async setHighScore(newScore) {
     try {
       await AsyncStorage.setItem("@RangTrainer:highScore", newScore.toString());
+      this.setState({ highScore: newScore });
     } catch (error) {
       console.log("Error saving highScore: ", error);
     }
@@ -244,12 +246,13 @@ class RangeTrainer extends Component {
       handSuccess,
       action,
       score,
-      wrongHands
+      wrongHands,
+      highScore
     } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.scoreboard}>
-          <Scoreboard score={score} />
+          <Scoreboard score={score} highScore={highScore} />
         </View>
         <View style={styles.newHand}>
           <Button title="Next hand" onPress={this.newHand} />
