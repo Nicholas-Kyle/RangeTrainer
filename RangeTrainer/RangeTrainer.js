@@ -278,7 +278,7 @@ class RangeTrainer extends Component {
               onPress={this.newHand}
             />
           </View>
-          <View style={styles.posHand}>
+          <View style={styles.posHandView}>
             <Text style={styles.position}>
               Position: <Text style={styles.positionTitle}>{position}</Text>
             </Text>
@@ -288,7 +288,7 @@ class RangeTrainer extends Component {
           </View>
           {hand && <ActionButtonGroup onAction={this.checkAction} />}
           {action && (
-            <View style={styles.actionMessage}>
+            <View style={styles.actionMessageView}>
               {handSuccess && (
                 <Text style={styles.correctActionMessage}>Correct action</Text>
               )}
@@ -340,9 +340,10 @@ const styles = StyleSheet.create({
   newHandBtn: {
     backgroundColor: colors.textMain
   },
-  posHand: {
+  posHandView: {
     backgroundColor: colors.secondary,
-    alignSelf: "stretch",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 15,
     marginBottom: 15
   },
@@ -354,8 +355,9 @@ const styles = StyleSheet.create({
     alignContent: "flex-end"
   },
   hand: { ...textStyle.default, color: colors.textSecondary },
-  actionMessage: {
-    alignSelf: "stretch",
+  actionMessageView: {
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 15,
     marginBottom: 15
   },
