@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { textStyle } from "./sharedStyles";
+import { textStyle, colors } from "./sharedStyles";
 
 const Scoreboard = ({ score, highScore }) => (
   <View>
@@ -13,6 +13,7 @@ export default Scoreboard;
 
 const styles = StyleSheet.create({
   scoreText: {
-    ...textStyle.default
+    ...textStyle.default,
+    color: colors.textSecondary
   }
 });

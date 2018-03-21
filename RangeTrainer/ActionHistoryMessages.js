@@ -1,11 +1,12 @@
 import React from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
+import { textStyle, colors } from "./sharedStyles";
 
 const ActionHistoryMessages = ({ hands }) => (
-  <View style={styles.container}>
+  <View>
     <FlatList
       data={hands}
-      renderItem={({ item }, index) => <Text>{item}</Text>}
+      renderItem={({ item }, index) => <Text style={styles.text}>{item}</Text>}
       keyExtractor={(item, index) => index}
     />
   </View>
@@ -14,5 +15,9 @@ const ActionHistoryMessages = ({ hands }) => (
 export default ActionHistoryMessages;
 
 const styles = StyleSheet.create({
-  container: {}
+  text: {
+    ...textStyle.default,
+    color: colors.textSecondary,
+    backgroundColor: colors.secondary
+  }
 });

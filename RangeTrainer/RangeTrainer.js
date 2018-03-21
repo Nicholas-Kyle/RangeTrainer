@@ -5,7 +5,7 @@ import Scoreboard from "./Scoreboard";
 import ActionButtonGroup from "./ActionButtonGroup";
 import ActionHistoryMessages from "./ActionHistoryMessages";
 import ACTIONS from "./ACTIONS";
-import { textStyle } from "./sharedStyles";
+import { textStyle, colors } from "./sharedStyles";
 
 const POSITIONS = ["EP", "MP", "HJ", "CO", "BTN"];
 const groupOne = ["AA", "KK", "QQ", "JJ"];
@@ -266,39 +266,41 @@ class RangeTrainer extends Component {
       highScore
     } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={styles.scoreboard}>
-          <Scoreboard score={score} highScore={highScore} />
-        </View>
-        <View style={styles.newHand}>
-          <Button title="Next hand" onPress={this.newHand} />
-        </View>
-        <View style={styles.posHand}>
-          <Text style={styles.position}>
-            Position: <Text style={styles.positionTitle}>{position}</Text>
-          </Text>
-          <Text style={styles.hand}>
-            Hand: <Text style={styles.handTitle}>{hand}</Text>
-          </Text>
-        </View>
-        <View style={styles.actionButtons}>
+      <View style={styles.outerContainer}>
+        <View style={styles.innerContainer}>
+          <View style={styles.scoreboard}>
+            <Scoreboard score={score} highScore={highScore} />
+          </View>
+          <View style={styles.newHandView}>
+            <Button
+              buttonStyle={styles.newHandBtn}
+              title="Next hand"
+              onPress={this.newHand}
+            />
+          </View>
+          <View style={styles.posHand}>
+            <Text style={styles.position}>
+              Position: <Text style={styles.positionTitle}>{position}</Text>
+            </Text>
+            <Text style={styles.hand}>
+              Hand: <Text style={styles.handTitle}>{hand}</Text>
+            </Text>
+          </View>
           {hand && <ActionButtonGroup onAction={this.checkAction} />}
-        </View>
-
-        {action && (
-          <View style={styles.actionMessage}>
-            {action &&
-              handSuccess && (
+          {action && (
+            <View style={styles.actionMessage}>
+              {handSuccess && (
                 <Text style={styles.correctActionMessage}>Correct action</Text>
               )}
 
-            {!handSuccess && (
-              <Text style={styles.wrongActionMessage}>Wrong action</Text>
-            )}
+              {!handSuccess && (
+                <Text style={styles.wrongActionMessage}>Wrong action</Text>
+              )}
+            </View>
+          )}
+          <View style={styles.actionHistoryMessages}>
+            <ActionHistoryMessages hands={reverseArray(wrongHands)} />
           </View>
-        )}
-        <View style={styles.actionHistoryMessages}>
-          <ActionHistoryMessages hands={reverseArray(wrongHands)} />
         </View>
       </View>
     );
@@ -314,55 +316,62 @@ const markerBorder = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    ...markerBorder,
+  outerContainer: {
     flex: 1,
-    backgroundColor: "powderblue",
-    padding: 30,
+    backgroundColor: colors.main,
+    padding: 30
+  },
+  innerContainer: {
+    flex: 1,
+    padding: 15,
+    backgroundColor: colors.secondary,
     alignItems: "center",
     justifyContent: "space-between"
   },
   scoreboard: {
-    ...markerBorder,
-    padding: 15,
+    backgroundColor: colors.secondary,
     alignSelf: "stretch"
   },
-  newHand: {
-    ...markerBorder,
-    alignSelf: "stretch"
+  newHandView: {
+    alignSelf: "stretch",
+    marginTop: 15,
+    marginBottom: 15
+  },
+  newHandBtn: {
+    backgroundColor: colors.textMain
   },
   posHand: {
-    ...markerBorder,
+    backgroundColor: colors.secondary,
     alignSelf: "stretch",
-    padding: 15
+    marginTop: 15,
+    marginBottom: 15
   },
-  position: { ...textStyle.default },
+  position: { ...textStyle.default, color: colors.textSecondary },
   positionTitle: {
     alignContent: "flex-end"
   },
   handTitle: {
     alignContent: "flex-end"
   },
-  hand: { ...textStyle.default },
-  actionButtons: {
-    ...markerBorder
-  },
+  hand: { ...textStyle.default, color: colors.textSecondary },
   actionMessage: {
-    ...markerBorder,
-    alignSelf: "stretch"
+    alignSelf: "stretch",
+    marginTop: 15,
+    marginBottom: 15
   },
   correctActionMessage: {
+    ...textStyle.default,
     backgroundColor: "green",
-    padding: 15,
-    ...textStyle.default
+    color: colors.textSecondary,
+    padding: 15
   },
   wrongActionMessage: {
+    ...textStyle.default,
     padding: 15,
-    backgroundColor: "red",
-    ...textStyle.default
+    color: colors.textSecondary,
+    backgroundColor: "red"
   },
   actionHistoryMessages: {
-    ...markerBorder,
     flex: 1,
     alignSelf: "stretch",
     padding: 15

@@ -2,12 +2,25 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-elements";
 import ACTIONS from "./ACTIONS";
+import { colors } from "./sharedStyles";
 
 const ActionButtonGroup = ({ onAction }) => (
   <View style={styles.container}>
-    <Button title="Limp" onPress={onAction.bind(null, ACTIONS.LIMP)} />
-    <Button title="Raise" onPress={onAction.bind(null, ACTIONS.RAISE)} />
-    <Button title="Fold" onPress={onAction.bind(null, ACTIONS.FOLD)} />
+    <Button
+      backgroundColor={colors.textMain}
+      title="Limp"
+      onPress={onAction.bind(null, ACTIONS.LIMP)}
+    />
+    <Button
+      backgroundColor={colors.textMain}
+      title="Raise"
+      onPress={onAction.bind(null, ACTIONS.RAISE)}
+    />
+    <Button
+      backgroundColor={colors.textMain}
+      title="Fold"
+      onPress={onAction.bind(null, ACTIONS.FOLD)}
+    />
   </View>
 );
 
@@ -15,7 +28,7 @@ export default ActionButtonGroup;
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: "stretch",
+    justifyContent: "space-between",
     flexDirection: "row"
   }
 });
