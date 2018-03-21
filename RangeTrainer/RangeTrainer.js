@@ -4,6 +4,7 @@ import { Button } from "react-native-elements";
 import Scoreboard from "./Scoreboard";
 import ActionButtonGroup from "./ActionButtonGroup";
 import ActionHistoryMessages from "./ActionHistoryMessages";
+import ACTIONS from "./ACTIONS";
 import { textStyle } from "./sharedStyles";
 
 const POSITIONS = ["EP", "MP", "HJ", "CO", "BTN"];
@@ -138,16 +139,18 @@ class RangeTrainer extends Component {
   findCorrectActionForHandInPosition(hand, position) {
     const positionGroups = positionWithGroups[position];
     if (positionGroups.raiseDefend.includes(hand)) {
-      return "raiseDefend";
-    }
-    if (positionGroups.raiseFold.includes(hand)) {
-      return "raiseFold";
-    }
-    if (positionGroups.limp.includes(hand)) {
-      return "limp";
+      return ACTIONS.RAISE_DEFEND;
     }
 
-    return "fold";
+    if (positionGroups.raiseFold.includes(hand)) {
+      return ACTIONS.RAISE_FOLD;
+    }
+
+    if (positionGroups.limp.includes(hand)) {
+      return ACTIONS.LIMP;
+    }
+
+    return ACTIONS.FOLD;
   }
 
   checkAction(playerAction) {
@@ -158,20 +161,24 @@ class RangeTrainer extends Component {
       position
     );
     const handSuccess = playerAction === correctAction;
+    const newState = { handSuccess, action: playerAction };
 
-    const correctActionMessage = handSuccess
-      ? ""
-      : `For Hand ${hand} and position ${position} Correct action is ${correctAction}.`;
+    if (!handSuccess) {
+      const actionMessage = `For Hand ${hand} and position ${position} Correct action is ${correctAction}.`;
+      return this.setState(
+        ({ wrongHands }) => ({
+          ...newState,
+          score: 0,
+          wrongHands: wrongHands.concat(actionMessage) //TODO add to beginner of array instead of reverse
+        }),
+        this.newHand()
+      );
+    }
 
-    const extraScore = handSuccess ? 10 : -10;
-
-    this.setState(
-      ({ score: oldScore, wrongHands }) => ({
-        score: oldScore + extraScore,
-        handSuccess,
-        action: playerAction,
-        correctActionMessage,
-        wrongHands: wrongHands.concat(correctActionMessage)
+    return this.setState(
+      ({ score: oldScore }) => ({
+        ...newState,
+        score: oldScore + 10
       }),
       this.newHand()
     );
@@ -184,7 +191,6 @@ class RangeTrainer extends Component {
       handSuccess,
       action,
       score,
-      correctActionMessage,
       wrongHands
     } = this.state;
     return (
