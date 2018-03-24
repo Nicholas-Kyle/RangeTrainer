@@ -136,11 +136,11 @@ class RangeTrainer extends Component {
       cardTwo = ranks[randomIndexOne];
     }
 
-    let randomNumberBetweenOneAndFour = Math.floor(Math.random() * 4) + 1;
+    let randomNumberBetweenOneAndFiftyOne = Math.floor(Math.random() * 51) + 1;
 
     let suited = "";
     if (cardOne !== cardTwo) {
-      if (randomNumberBetweenOneAndFour === 4) {
+      if (randomNumberBetweenOneAndFiftyOne <= 12) {
         suited = "s";
       } else {
         suited = "o";
