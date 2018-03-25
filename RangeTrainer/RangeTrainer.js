@@ -223,7 +223,7 @@ class RangeTrainer extends Component {
       return this.setState(
         ({ wrongHands }) => {
           let newWrongHands = wrongHands.slice(0);
-          newWrongHands.push(actionMessage);
+          newWrongHands.unshift(actionMessage);
           return {
             ...newState,
             score: 0,
