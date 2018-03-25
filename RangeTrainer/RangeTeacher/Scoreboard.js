@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { textStyle, colors } from "./sharedStyles";
+import { textStyle, colors } from "../sharedStyles";
 
 const Scoreboard = ({ score, highScore }) => (
   <View style={styles.container}>

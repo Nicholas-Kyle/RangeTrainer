@@ -1,4 +1,6 @@
-const POSITIONS = ["EP", "MP", "HJ", "CO", "BTN"];
+import ACTIONS from "./ACTIONS";
+import POSITIONS from "./POSITIONS";
+
 const groupOne = ["AA", "KK", "QQ", "JJ"];
 const groupTwo = ["AKs", "AKo"];
 const groupThree = ["AQs"];
@@ -10,10 +12,10 @@ const groupEight = ["77", "66", "55", "44", "33", "22"];
 const groupNine = ["KJs", "KTs", "QJs"];
 const groupTen = ["JTs", "T9s", "98s", "87s", "76s", "65s", "54s"];
 const groupEleven = ["QTs", "J9s", "108s", "97s", "86s", "75s", "64s", "53s"];
-const groupTwlegth = ["Q9s", "J8s", "107s", "96s", "85s", "74s", "63s", "52s"];
+const groupTwelve = ["Q9s", "J8s", "107s", "96s", "85s", "74s", "63s", "52s"];
 const groupThirteen = ["JTo", "T9o", "98o", "87o", "76o", "65o", "54o"];
 
-const positionWithGroups = {
+const defaultRange = {
   [POSITIONS[0]]: {
     [ACTIONS.RAISE]: [
       ...groupOne,
@@ -62,7 +64,7 @@ const positionWithGroups = {
       ...groupEight,
       ...groupNine
     ],
-    [ACTIONS.LIMP]: [...groupTen, ...groupEleven, ...groupTwlegth]
+    [ACTIONS.LIMP]: [...groupTen, ...groupEleven, ...groupTwelve]
   },
   [POSITIONS[4]]: {
     [ACTIONS.RAISE]: [
@@ -77,8 +79,8 @@ const positionWithGroups = {
       ...groupNine,
       ...groupTen
     ],
-    [ACTIONS.LIMP]: [...groupEleven, ...groupTwlegth, ...groupThirteen]
+    [ACTIONS.LIMP]: [...groupEleven, ...groupTwelve, ...groupThirteen]
   }
 };
 
-export default positionWithGroups;
+export default defaultRange;

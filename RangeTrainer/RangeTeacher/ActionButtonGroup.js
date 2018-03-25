@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-elements";
 import ACTIONS from "./ACTIONS";
-import { colors } from "./sharedStyles";
+import { colors } from "../sharedStyles";
 
 const ActionButtonGroup = ({ onAction }) => (
   <View style={styles.container}>
