@@ -152,7 +152,7 @@ class RangeTrainer extends Component {
 
   async getHighScore() {
     try {
-      const highScore = await AsyncStorage.getItem("@RangTrainer:highScore");
+      const highScore = await AsyncStorage.getItem("@RangeTrainer:highScore");
       if (highScore !== null) {
         return parseInt(highScore);
       }
@@ -167,7 +167,10 @@ class RangeTrainer extends Component {
 
   async setHighScore(newScore) {
     try {
-      await AsyncStorage.setItem("@RangTrainer:highScore", newScore.toString());
+      await AsyncStorage.setItem(
+        "@RangeTrainer:highScore",
+        newScore.toString()
+      );
       this.setState({ highScore: newScore });
     } catch (error) {
       console.log("Error saving highScore: ", error);
