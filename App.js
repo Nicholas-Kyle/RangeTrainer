@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import RangeTrainer from "./RangeTrainer/RangeTrainer";
+import MainMenu from "./RangeTrainer/MainMenu";
 
 export default class App extends React.Component {
   render() {
-    return <RangeTrainer />;
+    return <MainMenu />;
   }
 }
