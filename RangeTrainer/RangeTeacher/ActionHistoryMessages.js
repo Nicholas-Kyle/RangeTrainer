@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
-import { textStyle, colors } from "./sharedStyles";
+import { textStyle, colors } from "../sharedStyles";
 
 const ActionHistoryMessages = ({ hands }) => (
   <View>
