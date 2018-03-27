@@ -52,6 +52,9 @@ const RootStack = StackNavigator(
         }
     },
     {
+        headerMode: "none"
+    },
+    {
         initialRouteName: "Main",
     }
 );
