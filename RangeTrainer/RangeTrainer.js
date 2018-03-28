@@ -9,7 +9,7 @@ class MainMenuScreen extends Component {
 
   render(){
       return(
-          <View style={{ flex: 1, alignItems: "center"}}>
+          <View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
               <Text>Main Menu</Text>
               <Button
                   title="Start training"
@@ -57,7 +57,7 @@ const RootStack = StackNavigator(
           screen: MainMenuScreen,
       },
       RT: {
-          screen: RangeTrainerScreen,
+          screen: RangeTeacherScreen,
       },
       RC: {
           screen: RangeCreatorScreen,
