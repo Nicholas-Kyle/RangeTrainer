@@ -1,32 +1,18 @@
 import parseUserRange from "./parseUserRange";
 import each from "jest-each";
+import { getSubgroupFromHand } from "../helpers/helpers";
+import upswingRanges from "../RangeTeacher/defaultRanges/upswing";
 import rangeGroups from "./rangeGroups";
 
-function getSubgroupFromHand(from, group) {
-  return group.filter(hand => group.indexOf(hand) <= group.indexOf(from));
-}
-
-//Upswing Ranges
-const utgRange = ["77+", "AQo+", "9_8s+", "J_9s+", "ATs+", "KTs", "A5s"];
-const btnRange = [
-  "22+",
-  "A2o+",
-  "A2s+",
-  "K9o+",
-  "Q9o+",
-  "K3s+",
-  "Q5s+",
-  "T_9o+",
-  "4_3s+",
-  "6_4s+",
-  "8_5s+",
-  "J6s",
-  "J7s",
-  "T6s",
-  "J9o"
-];
+console.error = jest.fn();
+console.log = jest.fn();
 
 describe("parseUserRange", () => {
+  beforeEach(() => {
+    console.error.mockClear();
+    console.log.mockClear();
+  });
+
   it("is a function", () => expect(parseUserRange).toBeInstanceOf(Function));
 
   each([
@@ -45,29 +31,21 @@ describe("parseUserRange", () => {
 
   each([
     [
-      utgRange,
+      upswingRanges.UTG,
       [
-        ...getSubgroupFromHand("77", rangeGroups.pairs),
-        "AKo",
-        "AQo",
-        "AKs",
-        "KQs",
-        "QJs",
-        "JTs",
-        "T9s",
-        "98s",
-        "KJs",
-        "QTs",
-        "J9s",
-        "AQs",
-        "AJs",
-        "ATs",
-        "KTs",
-        "A5s"
+        ...new Set([
+          ...getSubgroupFromHand("77", rangeGroups.pairs),
+          ...getSubgroupFromHand("AQo", rangeGroups.offSuitAce),
+          ...getSubgroupFromHand("ATs", rangeGroups.suitedAce),
+          ...getSubgroupFromHand("98s", rangeGroups.suitedConnectors),
+          ...getSubgroupFromHand("J9s", rangeGroups.suitedOneGap),
+          "KTs",
+          "A5s"
+        ])
       ]
     ],
     [
-      btnRange,
+      upswingRanges.BTN,
       [
         ...new Set([
           ...rangeGroups.pairs,
@@ -91,6 +69,31 @@ describe("parseUserRange", () => {
   ]).describe("when given a mutipart range %s", (userRange, expectedRange) => {
     it(`should return the correct final range`, () => {
       expect(parseUserRange(userRange).sort()).toEqual(expectedRange.sort());
+    });
+  });
+
+  each([[["J9O"], ["J9o"]], [["J9S"], ["J9s"]], [["j9o"], ["J9o"]]]).describe(
+    "when the wrong case is given %s",
+    (userRange, expectedRange) => {
+      it(`should return a range without the invalid hand `, () => {
+        expect(parseUserRange(userRange).sort()).toEqual(expectedRange.sort());
+      });
+    }
+  );
+
+  each([
+    [["56"], []],
+    [["56+"], []],
+    [["FF"], []],
+    [["FF", "22+"], [...rangeGroups.pairs]],
+    [
+      ["6_5s+", "89s+"],
+      [...getSubgroupFromHand("65s", rangeGroups.suitedConnectors)]
+    ]
+  ]).describe("when given a invalid range %s", (userRange, expectedRange) => {
+    it(`should error and return a range without the invalid hand`, () => {
+      expect(parseUserRange(userRange).sort()).toEqual(expectedRange.sort());
+      expect(console.error).toHaveBeenCalledTimes(1);
     });
   });
 });
