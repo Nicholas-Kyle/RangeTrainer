@@ -14,41 +14,44 @@ class RangeCreator extends Component {
   constructor(){
     super();
     this.state = {
-      ranges: [],
-      btnRange: ""
+      buttonRange: [],
+      cutoffRange: [],
+      userRange: ""
     }
   }
 
   handleChange(text){
-    this.setState({btnRange: text});
+    this.setState({userRange: text});
   }
 
   handlePress(){
-    let rangeString = this.state.btnRange.replace(/\s+/g, "");
+    let rangeString = this.state.userRange.replace(/\s+/g, "");
     let rangeArray = rangeString.split(",");
     let range = parseUserRange(rangeArray);
-    this.setState({ranges: range});
-    this.setState({btnRange: ""});
+    this.setState({buttonRange: range});
+    this.setState({userRange: ""});
   }
 
   render() {
     return (
-      <View  style={{ flex: 1, marginTop: 100}}>
+      <View  style={{ flex: 1, marginTop: 50}}>
+        <Dropdown
+              label="Select position"
+              value={data[0].value}
+              data={data}
+              />
         <View style={{ flexDirection: "row"}}>
-          <Dropdown
-            label="Select position"
-            data={data}
-            />
           <TextInput
-            value={this.state.btnRange}
-            onChangeText={ text => this.setState({btnRange: text})}
+            value={this.state.userRange}
+            onChangeText={ text => this.setState({userRange: text})}
           />
           <TouchableOpacity
             onPress={this.handlePress.bind(this)}>
             <Text>Add</Text>
           </TouchableOpacity>
         </View>
-        <Text>{this.state.ranges}</Text>
+        <Text>Button: {this.state.buttonRange}</Text>
+        <Text>Cut-off: {this.state.cutoffRange}</Text>
       </View>
     );
   }
