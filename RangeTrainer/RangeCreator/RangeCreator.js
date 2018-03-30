@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { Dropdown } from "react-native-material-dropdown";
 import parseUserRange from "./parseUserRange";
+
+const data = [{
+  value: "Button",
+}, {
+  value: "Cut-off",
+}]
 
 class RangeCreator extends Component {
 
@@ -26,16 +33,21 @@ class RangeCreator extends Component {
 
   render() {
     return (
-      <View  style={{ flex: 1, alignItems: "center", marginTop: 100}}>
-        <Text>Button Range</Text>
-        <TextInput
-          value={this.state.btnRange}
-          onChangeText={ text => this.setState({btnRange: text})}
-        />
-        <TouchableOpacity
-          onPress={this.handlePress.bind(this)}>
-          <Text>Add</Text>
-        </TouchableOpacity>
+      <View  style={{ flex: 1, marginTop: 100}}>
+        <View style={{ flexDirection: "row"}}>
+          <Dropdown
+            label="Select position"
+            data={data}
+            />
+          <TextInput
+            value={this.state.btnRange}
+            onChangeText={ text => this.setState({btnRange: text})}
+          />
+          <TouchableOpacity
+            onPress={this.handlePress.bind(this)}>
+            <Text>Add</Text>
+          </TouchableOpacity>
+        </View>
         <Text>{this.state.ranges}</Text>
       </View>
     );
