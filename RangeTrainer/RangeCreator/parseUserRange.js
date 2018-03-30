@@ -1,4 +1,4 @@
-import rangeGroups from "./rangeGroups";
+import rangeGroups from "../RangeAdder/rangeGroups";
 import { getSubgroupFromHand } from "../helpers/helpers";
 
 let { connectors, highCardsAndPairs } = rangeGroups;
